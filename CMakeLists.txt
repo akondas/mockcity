@@ -21,3 +21,9 @@ file(GLOB MOCKCITY_SRC
 add_executable(mockcity ${MOCKCITY_SRC})
 
 target_link_libraries(mockcity ${SFML_LIBRARIES} ${SFML_DEPENDENCIES})
+
+install(TARGETS mockcity
+        RUNTIME DESTINATION .)
+
+install(DIRECTORY media/
+        DESTINATION media/)

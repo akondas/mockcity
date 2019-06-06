@@ -5,6 +5,11 @@
 
 #include "game.hpp"
 #include "game_state.hpp"
+#include "texture_manager.hpp"
+
+void Game::loadTextures() {
+    this->texmgr.loadTexture("background", "media/background.png");
+}
 
 void Game::pushState(GameState *state) {
     this->states.push(state);
@@ -49,8 +54,10 @@ void Game::run() {
 }
 
 Game::Game() {
+    this->loadTextures();
     this->window.create(sf::VideoMode(800, 600), "Mock City");
     this->window.setFramerateLimit(60);
+    this->background.setTexture(this->texmgr.getRef("background"));
 }
 
 Game::~Game() {
