@@ -14,9 +14,9 @@ else()
 endif()
 
 file(GLOB MOCKCITY_SRC
-        "*.h"
-        "*.cpp"
-        )
+    "src/*.hpp"
+    "src/*.cpp"
+)
 
 add_executable(mockcity ${MOCKCITY_SRC})
 
