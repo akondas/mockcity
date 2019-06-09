@@ -8,11 +8,10 @@
 class GameState;
 
 class Game {
-private:
-
-    void loadTextures();
-
 public:
+
+    Game();
+    ~Game();
 
     std::stack<GameState *> states;
 
@@ -29,10 +28,9 @@ public:
     GameState *peekState();
 
     void run();
+private:
 
-    Game();
-
-    ~Game();
+    void loadTextures();
 };
 
 #endif /* GAME_HPP */

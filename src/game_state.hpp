@@ -6,13 +6,15 @@
 class GameState {
 public:
 
-    Game *game;
+    virtual ~GameState() = default;
 
     virtual void draw(const float dt) = 0;
 
     virtual void update(const float dt) = 0;
 
     virtual void handleInput() = 0;
+
+    Game *game;
 };
 
 #endif /* GAME_STATE_HPP */

@@ -6,18 +6,17 @@
 #include <map>
 
 class TextureManager {
-private:
-
-    std::map<std::string, sf::Texture> textures;
-
 public:
+
+    TextureManager() = default;
 
     void loadTexture(const std::string &name, const std::string &filename);
 
     sf::Texture &getRef(const std::string &texture);
-    
-    TextureManager() {
-    }
+
+private:
+
+    std::map<std::string, sf::Texture> textures;
 };
 
 #endif /* TEXTURE_MANAGER_HPP */
