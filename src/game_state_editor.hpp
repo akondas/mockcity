@@ -6,11 +6,6 @@
 #include "game_state.hpp"
 
 class GameStateEditor : public GameState {
-private:
-
-    sf::View gameView;
-    sf::View guiView;
-
 public:
 
     virtual void draw(const float dt);
@@ -20,6 +15,11 @@ public:
     virtual void handleInput();
 
     GameStateEditor(Game *game);
+
+private:
+
+    sf::View gameView;
+    sf::View guiView;
 };
 
 #endif /* GAME_STATE_EDITOR_HPP */

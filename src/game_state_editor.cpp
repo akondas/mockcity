@@ -6,12 +6,9 @@
 void GameStateEditor::draw(const float dt) {
     this->game->window.clear(sf::Color::Black);
     this->game->window.draw(this->game->background);
-
-    return;
 }
 
 void GameStateEditor::update(const float dt) {
-    return;
 }
 
 void GameStateEditor::handleInput() {
@@ -39,8 +36,6 @@ void GameStateEditor::handleInput() {
                 break;
         }
     }
-
-    return;
 }
 
 GameStateEditor::GameStateEditor(Game *game) {

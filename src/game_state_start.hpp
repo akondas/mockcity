@@ -6,12 +6,6 @@
 #include "game_state.hpp"
 
 class GameStateStart : public GameState {
-private:
-
-    sf::View view;
-
-    void loadgame();
-
 public:
 
     virtual void draw(const float dt);
@@ -21,6 +15,12 @@ public:
     virtual void handleInput();
 
     GameStateStart(Game *game);
+
+private:
+
+    void loadgame();
+
+    sf::View view;
 };
 
 #endif /* GAME_STATE_START_HPP */

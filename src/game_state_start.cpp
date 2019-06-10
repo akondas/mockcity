@@ -17,8 +17,6 @@ void GameStateStart::draw(const float dt) {
 
     this->game->window.clear(sf::Color::Black);
     this->game->window.draw(this->game->background);
-
-    return;
 }
 
 void GameStateStart::update(const float dt) {
@@ -51,12 +49,8 @@ void GameStateStart::handleInput() {
                 break;
         }
     }
-
-    return;
 }
 
 void GameStateStart::loadgame() {
     this->game->pushState(new GameStateEditor(this->game));
-
-    return;
 }
