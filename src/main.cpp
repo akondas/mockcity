@@ -1,9 +1,11 @@
 #include "game.hpp"
 #include "game_state_start.hpp"
+#include "logger.hpp"
 
 int main() {
-    Game game;
+    g_logger->setLogFilePath("log.txt");
 
+    Game game;
     game.pushState(new GameStateStart(&game));
     game.run();
 
