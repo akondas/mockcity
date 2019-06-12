@@ -10,10 +10,6 @@ void Logger::log(const LogLevel &level, const char *format, ...)
     }
     #endif
 
-    if (!file.is_open() || !file.good()) {
-        return;
-    }
-
     std::stringstream ss;
     ss << "[";
     if (level == LogLevel::Debug) {
@@ -36,6 +32,11 @@ void Logger::log(const LogLevel &level, const char *format, ...)
 
     ss << buffer << std::endl;
 
-    file << ss.str();
-    file.flush();
+    std::cout << ss.str();
+    std::cout.flush();
+
+    if (file.is_open() && file.good()) {
+        file << ss.str();
+        file.flush();
+    }
 }

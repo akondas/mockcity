@@ -2,8 +2,9 @@
 #define LOGGER_HPP
 
 #include <cstdint>
-#include <memory>
 #include <fstream>
+#include <iostream>
+#include <memory>
 #include <sstream>
 #include <string>
 
