@@ -1,7 +1,7 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
-#include <cstdarg>
+
 #include <cstdint>
 #include <fstream>
 #include <iostream>
