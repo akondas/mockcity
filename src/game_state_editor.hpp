@@ -4,6 +4,9 @@
 #include <SFML/Graphics.hpp>
 
 #include "game_state.hpp"
+#include "map.hpp"
+
+enum class ActionState { NONE, PANNING };
 
 class GameStateEditor : public GameState {
 public:
@@ -17,9 +20,13 @@ public:
     GameStateEditor(Game *game);
 
 private:
-
+    ActionState actionState;
     sf::View gameView;
     sf::View guiView;
+    Map map;
+
+    sf::Vector2i panningAnchor;
+    float zoomLevel;
 };
 
 #endif /* GAME_STATE_EDITOR_HPP */

@@ -4,6 +4,7 @@
 #include <vector>
 #include <fstream>
 
+#include "logger.hpp"
 #include "map.hpp"
 #include "tile.hpp"
 
@@ -19,7 +20,8 @@ void Map::load(const std::string &filename, unsigned int width, unsigned int hei
         this->resources.push_back(255);
 
         TileType tileType;
-        inputFile.read((char *) &tileType, sizeof(int));
+        inputFile.read((char *) &tileType, 4);
+
         switch (tileType) {
             default:
             case TileType::VOID:
@@ -45,11 +47,12 @@ void Map::load(const std::string &filename, unsigned int width, unsigned int hei
                 this->tiles.push_back(tileAtlas.at("road"));
                 break;
         }
+
         Tile &tile = this->tiles.back();
-        inputFile.read((char *) &tile.tileVariant, sizeof(int));
-        inputFile.read((char *) &tile.regions, sizeof(int) * 1);
-        inputFile.read((char *) &tile.population, sizeof(double));
-        inputFile.read((char *) &tile.storedGoods, sizeof(float));
+        inputFile.read((char *) &tile.tileVariant, 4);
+        inputFile.read((char *) &tile.regions, 4);
+        inputFile.read((char *) &tile.population, 8);
+        inputFile.read((char *) &tile.storedGoods, 4);
     }
 
     inputFile.close();
@@ -60,11 +63,11 @@ void Map::save(const std::string &filename) {
     outputFile.open(filename, std::ios::out | std::ios::binary);
 
     for (auto tile : this->tiles) {
-        outputFile.write((char *) &tile.tileType, sizeof(int));
-        outputFile.write((char *) &tile.tileVariant, sizeof(int));
-        outputFile.write((char *) &tile.regions, sizeof(int) * 1);
-        outputFile.write((char *) &tile.population, sizeof(double));
-        outputFile.write((char *) &tile.storedGoods, sizeof(float));
+        outputFile.write((char *) &tile.tileType, 4);
+        outputFile.write((char *) &tile.tileVariant, 4);
+        outputFile.write((char *) &tile.regions, 4);
+        outputFile.write((char *) &tile.population, 8);
+        outputFile.write((char *) &tile.storedGoods, 4);
     }
 
     outputFile.close();
@@ -89,9 +92,9 @@ void Map::updateDirection(TileType tileType) {
 
             if (this->tiles[pos].tileType != tileType) continue;
 
-            bool adjacentTiles[3][2] = {{0, 0, 0},
-                                        {0, 0, 0},
-                                        {0, 0, 0}};
+            bool adjacentTiles[3][2] = {{0, 0},
+                                        {0, 0},
+                                        {0, 0}};
 
             if (x > 0 && y > 0)
                 adjacentTiles[0][0] = (this->tiles[(y - 1) * this->width + (x - 1)].tileType == tileType);
