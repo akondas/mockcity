@@ -31,13 +31,13 @@ void GameStateStart::handleInput() {
                 game->window.close();
                 break;
             }
-
             case sf::Event::Resized: {
                 this->view.setSize(event.size.width, event.size.height);
                 this->game->background.setPosition(this->game->window.mapPixelToCoords(sf::Vector2i(0, 0)));
                 this->game->background.setScale(
-                        float(event.size.width) / float(this->game->background.getTexture()->getSize().x),
-                        float(event.size.height) / float(this->game->background.getTexture()->getSize().y));
+                    float(event.size.width) / float(this->game->background.getTexture()->getSize().x),
+                    float(event.size.height) / float(this->game->background.getTexture()->getSize().y)
+                );
                 break;
             }
             case sf::Event::KeyPressed: {

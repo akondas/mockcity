@@ -1,47 +1,48 @@
 #ifndef TILE_HPP
 #define TILE_HPP
 
+#include <cstdint>
 #include <SFML/Graphics.hpp>
 #include <vector>
 
 #include "animation_handler.hpp"
 
 enum class TileType {
-    VOID, GRASS, FOREST, WATER, RESIDENTIAL, COMMERCIAL, INDUSTRIAL, ROAD
+    VOID,
+    GRASS,
+    FOREST,
+    WATER,
+    RESIDENTIAL,
+    COMMERCIAL,
+    INDUSTRIAL,
+    ROAD
 };
 
 std::string tileTypeToStr(TileType type);
 
 class Tile {
 public:
+    Tile() {}
 
     AnimationHandler animHandler;
     sf::Sprite sprite;
 
     TileType tileType;
 
-    int tileVariant;
+    // TODO: Resize to proper (smaller) types
+    uint32_t tileVariant;
+    uint32_t regions[1];
+    uint32_t cost;
+    uint32_t maxPopPerLevel;
+    uint32_t maxLevels;
+    uint32_t population;
+    uint32_t production;
 
-    unsigned int regions[1];
+    uint64_t storedGoods;
 
-    unsigned int cost;
-
-    double population;
-
-    unsigned int maxPopPerLevel;
-
-    unsigned int maxLevels;
-
-    float production;
-
-    float storedGoods;
-
-    Tile() {}
-
-    Tile(const unsigned int tileSize, const unsigned int height, sf::Texture &texture,
-         const std::vector<Animation> &animations,
-         const TileType tileType, const unsigned int cost, const unsigned int maxPopPerLevel,
-         const unsigned int maxLevels) {
+    Tile(uint32_t tileSize, uint32_t height, sf::Texture &texture, const std::vector<Animation> &animations,
+        const TileType tileType, uint32_t cost, uint32_t maxPopPerLevel, uint32_t maxLevels)
+    {
         this->tileType = tileType;
         this->tileVariant = 0;
         this->regions[0] = 0;
