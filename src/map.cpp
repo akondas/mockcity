@@ -1,28 +1,16 @@
-#include <SFML/Graphics.hpp>
-#include <string>
-#include <map>
-#include <vector>
-#include <fstream>
-
-#include "logger.hpp"
 #include "map.hpp"
-#include "tile.hpp"
+#include "inmemoryfile.hpp"
 
-void Map::load(const std::string &filename, unsigned int width, unsigned int height,
-               std::map<std::string, Tile> &tileAtlas) {
-    std::ifstream inputFile;
-    inputFile.open(filename, std::ios::in | std::ios::binary);
-
+void Map::load(const std::string &filename, unsigned int width, unsigned int height, std::map<std::string, Tile> &tileAtlas)
+{
     this->width = width;
     this->height = height;
 
+    InMemoryFile file(filename);
     for (int pos = 0; pos < this->width * this->height; ++pos) {
         this->resources.push_back(255);
 
-        TileType tileType;
-        inputFile.read((char *) &tileType, 4);
-
-        switch (tileType) {
+        switch (static_cast<TileType>(file.read<uint8_t>())) {
             default:
             case TileType::VOID:
             case TileType::GRASS:
@@ -49,28 +37,25 @@ void Map::load(const std::string &filename, unsigned int width, unsigned int hei
         }
 
         Tile &tile = this->tiles.back();
-        inputFile.read((char *) &tile.tileVariant, 4);
-        inputFile.read((char *) &tile.regions, 4);
-        inputFile.read((char *) &tile.population, 8);
-        inputFile.read((char *) &tile.storedGoods, 4);
+        tile.tileVariant = file.read<uint32_t>();
+        tile.regions[0] = file.read<uint32_t>();
+        tile.population = file.read<uint32_t>();
+        tile.storedGoods = file.read<uint64_t>();
     }
-
-    inputFile.close();
 }
 
-void Map::save(const std::string &filename) {
-    std::ofstream outputFile;
-    outputFile.open(filename, std::ios::out | std::ios::binary);
-
-    for (auto tile : this->tiles) {
-        outputFile.write((char *) &tile.tileType, 4);
-        outputFile.write((char *) &tile.tileVariant, 4);
-        outputFile.write((char *) &tile.regions, 4);
-        outputFile.write((char *) &tile.population, 8);
-        outputFile.write((char *) &tile.storedGoods, 4);
+void Map::save(const std::string &filename)
+{
+    InMemoryFile file;
+    for (const auto &tile : tiles) {
+        file.write<>(static_cast<uint8_t>(tile.tileType));
+        file.write<>(tile.tileVariant);
+        file.write<>(tile.regions[0]);
+        file.write<>(tile.population);
+        file.write<>(tile.storedGoods);
     }
 
-    outputFile.close();
+    file.save(filename);
 }
 
 void Map::draw(sf::RenderWindow &window, float dt) {
@@ -92,7 +77,7 @@ void Map::updateDirection(TileType tileType) {
 
             if (this->tiles[pos].tileType != tileType) continue;
 
-            bool adjacentTiles[3][2] = {{0, 0},
+            bool adjacentTiles[3][31] = {{0, 0},
                                         {0, 0},
                                         {0, 0}};
 
