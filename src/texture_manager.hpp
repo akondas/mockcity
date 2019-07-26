@@ -1,22 +1,25 @@
 #ifndef TEXTURE_MANAGER_HPP
 #define TEXTURE_MANAGER_HPP
 
-#include <SFML/Graphics.hpp>
-#include <string>
 #include <map>
+#include <string>
 
-class TextureManager {
-public:
+#include <SFML/Graphics.hpp>
 
-    TextureManager() = default;
+class TextureManager
+{
+    public:
 
-    void loadTexture(const std::string &name, const std::string &filename);
+        TextureManager() = default;
 
-    sf::Texture &getRef(const std::string &texture);
+        void load();
 
-private:
+        sf::Texture &getRef(const std::string &texture);
 
-    std::map<std::string, sf::Texture> textures;
+    private:
+        void loadTexture(const std::string &name, const std::string &filename);
+
+        std::map<const std::string, sf::Texture> textures;
 };
 
 #endif /* TEXTURE_MANAGER_HPP */

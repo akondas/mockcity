@@ -1,44 +1,50 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
+#include <cstdint>
 #include <map>
+#include <memory>
 #include <string>
 #include <stack>
 #include <SFML/Graphics.hpp>
-#include "tile.hpp"
+
+#include "audiomanager.hpp"
 #include "texture_manager.hpp"
+#include "tile.hpp"
+
+constexpr uint16_t tileSize = 8;
 
 class GameState;
 
-class Game {
-public:
+class Game
+{
+    public:
 
-    Game();
-    ~Game();
+        Game();
+        ~Game();
 
-    const static int tileSize = 8;
+        std::stack<GameState *> states;
 
-    std::stack<GameState *> states;
+        sf::RenderWindow window;
+        sf::Sprite background;
 
-    sf::RenderWindow window;
-    TextureManager texmgr;
-    sf::Sprite background;
+        std::map<std::string, Tile> tileAtlas;
 
-    std::map<std::string, Tile> tileAtlas;
+        void pushState(GameState *state);
 
-    void pushState(GameState *state);
+        void popState();
 
-    void popState();
+        void changeState(GameState *state);
 
-    void changeState(GameState *state);
+        GameState *peekState();
 
-    GameState *peekState();
+        void run();
 
-    void run();
-private:
+        void loadTiles();
 
-    void loadTextures();
-    void loadTiles();
+    private:
+        std::unique_ptr<AudioManager> audio{nullptr};
+        std::unique_ptr<TextureManager> textures{nullptr};
 };
 
 #endif /* GAME_HPP */
