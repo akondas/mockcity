@@ -59,9 +59,10 @@ void Map::save(const std::string &filename)
 }
 
 void Map::draw(sf::RenderWindow &window, float dt) {
+    sf::Vector2f pos;
+
     for (int y = 0; y < this->height; ++y) {
         for (int x = 0; x < this->width; ++x) {
-            sf::Vector2f pos;
             pos.x = (x - y) * this->tileSize + this->width * this->tileSize;
             pos.y = (x + y) * this->tileSize * 0.5;
             this->tiles[y * this->width + x].sprite.setPosition(pos);
